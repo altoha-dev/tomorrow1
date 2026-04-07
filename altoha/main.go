@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -36,4 +37,7 @@ func main() {
 
 	fmt.Println(string(content))
 	fmt.Println(result)
+
+	word := strings.Fields(string(content))
+	fmt.Println(word)
 }
