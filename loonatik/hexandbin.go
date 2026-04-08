@@ -10,9 +10,13 @@ func SplitText(s string) string {
 	var re1 strings.Builder
 
 	for i := 0; i < len(runes); i++ {
+		curr := runes[i]
+		if unicode.IsPunct(curr) {
+			re1.WriteRune(' ')
+			continue
+		}
 		if i > 0 {
 			prev := runes[i-1]
-			curr := runes[i]
 
 			if (unicode.IsDigit(prev) && unicode.IsLetter(curr)) ||
 				(unicode.IsLetter(prev) && unicode.IsDigit(curr)) {
@@ -21,5 +25,5 @@ func SplitText(s string) string {
 		}
 		re1.WriteRune(runes[i])
 	}
-	return re1.String()
+	return strings.Join(strings.Fields(re1.String()), " ")
 }
