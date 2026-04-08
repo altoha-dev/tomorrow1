@@ -20,11 +20,9 @@ func main() {
 	}
 	result := SplitText(string(text))
 
+	
+
 	os.WriteFile(outText, []byte(result), 0o644)
-	if err != nil {
-		fmt.Println("ERROR")
-		return
-	}
 
 	fmt.Println(result)
 }

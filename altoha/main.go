@@ -8,9 +8,9 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 3 {
+	if len(os.Args) != 3 {
 
-		fmt.Println("LOH")
+		fmt.Println("error")
 		return
 	}
 
@@ -23,23 +23,51 @@ func main() {
 		return
 	}
 
+	text = []byte(strings.ReplaceAll(string(text), "(hex)", " (hex) "))
+	text = []byte(strings.ReplaceAll(string(text), "(bin)", " (bin) "))
+	text = []byte(strings.ReplaceAll(string(text), "(hex )", " (hex) "))
+	text = []byte(strings.ReplaceAll(string(text), "( hex)", " (hex) "))
+	text = []byte(strings.ReplaceAll(string(text), "(,hex)", " (hex) "))
+	text = []byte(strings.ReplaceAll(string(text), "(hex,)", " (hex) "))
+	text = []byte(strings.ReplaceAll(string(text), "(,hex,)", " (hex) "))
+	text = []byte(strings.ReplaceAll(string(text), "(bin )", " (hex) "))
+	text = []byte(strings.ReplaceAll(string(text), "( bin)", " (bin) "))
+	text = []byte(strings.ReplaceAll(string(text), "(,bin)", " (bin) "))
+	text = []byte(strings.ReplaceAll(string(text), "(bin,)", " (bin) "))
+	text = []byte(strings.ReplaceAll(string(text), "(,bin,)", " (bin) "))
+
 	words := strings.Fields(string(text))
 
-	for i := 0; i < len(words); i++ {
-		fmt.Println(words[i])
-	}
-
+	fmt.Println(words)
+	UpLow(words)
 	for i := 0; i < len(words); i++ {
 		if words[i] == "(hex)" && i > 0 {
+			// (hex)
 			res, err := strconv.ParseInt(words[i-1], 16, 64)
+			// 1E
 			if err == nil {
 
-				words[i-1] = fmt.Sprint(res)
+				words[i-1] = fmt.Sprint(res) // 1E ->30 перезапись
 				words[i] = ""
 			}
 
 		}
+		if words[i] == "(bin)" && i > 0 {
+			// (bin)
+			res, err := strconv.ParseInt(words[i-1], 2, 64)
+			// (10)
+			if err == nil {
+
+				words[i-1] = fmt.Sprint(res) // 10 ->2
+				words[i] = ""
+				// (bin del)
+			}
+
+		}
+
 	}
+	UpLow(words)
+
 	// 1. Собираем слова в одну строку через пробел
 	finalText := strings.Join(words, " ")
 
@@ -49,4 +77,6 @@ func main() {
 
 	// 3. Записываем результат в файл
 	os.WriteFile(output, []byte(cleanText), 0o644)
+
+	fmt.Println(cleanText)
 }
