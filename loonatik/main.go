@@ -18,9 +18,7 @@ func main() {
 		fmt.Println("ERROR")
 		return
 	}
-	result := SplitText(string(text))
-
-	
+	result := HexBin(string(text))
 
 	os.WriteFile(outText, []byte(result), 0o644)
 

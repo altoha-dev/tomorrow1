@@ -15,4 +15,6 @@ func main() {
 	fmt.Println("Hex:", hexStr, "decimal", decimal)
 
 	for i:=0, i<len()
+
 }
+
