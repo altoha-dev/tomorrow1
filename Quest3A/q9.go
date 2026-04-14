@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 )
 
 func main() {
@@ -10,15 +11,16 @@ func main() {
 	fmt.Println(BasicAtoi("000000"))
 }
 
-func BasicAtoi(s string) string {
-	
-	res:=""
+func BasicAtoi(s string) int {
+	res := ""
+	num := 0
 	for i := 0; i < len(s); i++ {
 		if s[i] >= '1' && s[i] <= '9' {
-			res += s[i]
+			res += string((s[i]))
+			num, _ = strconv.Atoi(res)
 		}
 	}
-	return string(res)
+	return num
 }
 
 // 12345
