@@ -12,8 +12,10 @@ func main() {
 
 func SortIntegerTable(table []int) {
 	for i := 0; i < len(table); i++ {
-		for j := 0; j < i; j++ {
-			
+		for y := i + 1; y < len(table); y++ {
+			if table[i] > table[y] {
+				table[i], table[y] = table[y], table[i]
+			}
 		}
 	}
 }
