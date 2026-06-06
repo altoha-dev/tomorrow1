@@ -2,40 +2,40 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 )
 
-func mine(checkpoint chan int, n int) {
-
-	fmt.Println("работник номер", n, "приступил к работе ")
-	time.Sleep(1 * time.Second)
-	fmt.Println("работник номер", n, "закончил  ")
-	checkpoint <- 10
-
-	//......
-
-	fmt.Println("ура я свободен", n)
-
-}
-
 func main() {
 
-	checkpoint := make(chan int)
+	intch := make(chan int)
 
-	InitTime := time.Now()
-	coal := 0
-	go mine(checkpoint, 1)
-	go mine(checkpoint, 2)
-	go mine(checkpoint, 3)
+	strch := make(chan string)
 
-	coal += <-checkpoint
+	go func() {
+		i := 1
+		for {
+			intch <- i
+			i++
+			time.Sleep(100 * time.Millisecond)
+		}
+	}()
 
-	coal += <-checkpoint
+	go func() {
+		i := 1
+		for {
+			strch <- "Hello " + strconv.Itoa(i)
+			i++
+			time.Sleep(1000 * time.Millisecond)
+		}
+	}()
 
-	coal += <-checkpoint
-
-	fmt.Println(coal)
-
-	fmt.Println(time.Since(InitTime))
-
+	for {
+		select {
+		case number := <-intch:
+			fmt.Println(number)
+		case str := <-strch:
+			fmt.Println(str)
+		}
+	}
 }
