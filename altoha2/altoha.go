@@ -20,11 +20,11 @@ func main() {
 
 	words := strings.Fields(string(text))
 
+	FixPunctuations(words)
 	HexBinCapLowUp(words)
 
 	MultipleCapLowUp(words)
 
 	result := strings.Join(words, " ")
-	FixPunctuations(words)
 	os.WriteFile(output, []byte(result), 0o644)
 }
